@@ -10,12 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate form data
     if (empty($name) || empty($email) || empty($message)) {
+        header("HTTP/1.1 400 Bad Request");
         echo "Error: All fields are required";
+        exit;
     } else {
         // Insert data into the database
         $sql = "INSERT INTO entries (name, email, message) VALUES ('$name', '$email', '$message')";
         if (mysqli_query($conn, $sql)) {
             header("Location: index.php");
+            
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }

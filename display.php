@@ -12,19 +12,15 @@
             <th>Actions</th>
         </tr>
         <?php
-        // Connect to the database
-        $host = 'localhost';
-        $user = 'root';
-        $password = '';
-        $dbname = 'crud';
-
-        // Create connection
+        // Include the database connection file
         require 'conn.php';
-        // Select all the entries from the entries table
-        $query = "SELECT * FROM entries";
+        // Get the id from the URL
+        $id = $_GET['id'];
+        // Select the entry with the given id from the entries table
+        $query = "SELECT * FROM entries WHERE id = $id";
         $result = mysqli_query($conn, $query);
 
-        // Display each entry
+        // Display the entry
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>" . $row['name'] . "</td>";
