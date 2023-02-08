@@ -1,5 +1,5 @@
 <?php
-require 'index.php';
+require 'conn.php';
 
 // SQL statement for creating the table
 $sql = "CREATE TABLE entries (
