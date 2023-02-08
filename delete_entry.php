@@ -1,31 +1,22 @@
 <?php
+require 'conn.php';
 
-// Connect to the database
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'crud';
+// Check if the id is set in the URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-// Create connection
-$conn = mysqli_connect($host, $user, $password, $dbname);
+    // Delete the entry from the database
+    $query = "DELETE FROM entries WHERE id=$id";
 
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+    if (mysqli_query($conn, $query)) {
+        header("Location: index.php");
+    } else {
+        echo "Error deleting record: " . mysqli_error($conn);
+    }
 
-// Get the id of the entry to delete
-$id = $_GET['id'];
-
-// Delete the entry from the database
-$query = "DELETE FROM entries WHERE id=$id";
-
-if (mysqli_query($conn, $query)) {
-    header("Location: index.php");
+    mysqli_close($conn);
 } else {
-    echo "Error deleting record: " . mysqli_error($conn);
+    echo "Error: ID not set in URL.";
 }
-
-mysqli_close($conn);
 
 ?>

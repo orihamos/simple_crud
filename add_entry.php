@@ -1,18 +1,6 @@
 <?php
 
-// Connect to the database
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'crud';
-
-// Create connection
-$conn = mysqli_connect($host, $user, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+require 'conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
@@ -22,16 +10,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate form data
     if (empty($name) || empty($email) || empty($message)) {
-        echo "All fields are required";
+        echo "Error: All fields are required";
     } else {
         // Insert data into the database
         $sql = "INSERT INTO entries (name, email, message) VALUES ('$name', '$email', '$message')";
         if (mysqli_query($conn, $sql)) {
-            echo "New entry added successfully";
+            header("Location: index.php");
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
     }
+} else {
+    header("Location: index.php");
 }
 
 mysqli_close($conn);

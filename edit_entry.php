@@ -1,16 +1,6 @@
-// Connect to the database
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'crud';
+<?php
+require 'conn.php';
 
-// Create connection
-$conn = mysqli_connect($host, $user, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $query = "SELECT * FROM entries WHERE id=$id";
@@ -19,7 +9,8 @@ if (isset($_GET['id'])) {
     $name = $row['name'];
     $email = $row['email'];
     $message = $row['message'];
-}
+} ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +33,7 @@ if (isset($_GET['id'])) {
 
 </body>
 </html>
+<?php
 mysqli_close($conn);
-
+?>
 

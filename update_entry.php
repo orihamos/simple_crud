@@ -1,32 +1,27 @@
 <?php
+require 'conn.php';
 
-// Connect to the database
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'crud';
+// Check if the id is set in the URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Get the data from the form
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $message = mysqli_real_escape_string($conn, $_POST['message']);
 
-// Create connection
-$conn = mysqli_connect($host, $user, $password, $dbname);
+        // Update the record in the database
+        $query = "UPDATE entries SET name='$name', email='$email', message='$message' WHERE id=$id";
 
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Get the data from the form
-$id = $_POST['id'];
-$name = $_POST['name'];
-$email = $_POST['email'];
-$message = $_POST['message'];
-
-// Update the record in the database
-$query = "UPDATE entries SET name='$name', email='$email', message='$message' WHERE id=$id";
-
-if (mysqli_query($conn, $query)) {
-    header("Location: index.php");
+        if (mysqli_query($conn, $query)) {
+            header("Location: index.php");
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+    }
 } else {
-    echo "Error updating record: " . mysqli_error($conn);
+    echo "Error: ID not set in URL.";
 }
 
 mysqli_close($conn);

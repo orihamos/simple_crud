@@ -1,6 +1,8 @@
 <?php
 include 'conn.php';
 
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
 $sql = "SELECT * FROM entries";
 $result = mysqli_query($conn, $sql);
 
@@ -31,5 +33,8 @@ if (mysqli_num_rows($result) > 0) {
     echo "No entries found.";
 }
 
+if (isset($_GET['message'])) {
+    echo "<p>".$_GET['message']."</p>";
+}
 mysqli_close($conn);
 ?>

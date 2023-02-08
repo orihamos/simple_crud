@@ -1,11 +1,5 @@
 <?php
-// Connect to the database
-$conn = mysqli_connect('localhost', 'root', '', 'crud');
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+require 'conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
